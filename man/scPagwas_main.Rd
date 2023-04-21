@@ -21,7 +21,8 @@ scPagwas_main(
   min_clustercells = 10,
   min.pathway.size = 5,
   max.pathway.size = 300,
-  iters = 200,
+  iters_celltype = 200,
+  iters_singlecell = 500,
   n_topgenes = 1000,
   singlecell = TRUE,
   celltype = TRUE,
@@ -88,7 +89,9 @@ default is 5}
 \item{max.pathway.size}{(integr)Threshold for max pathway gene size.
 default is 300}
 
-\item{iters}{(integr)number of bootstrap iterations to perform}
+\item{iters_celltype}{(integr)number of bootstrap iterations for celltype}
+
+\item{iters_singlecell}{(integr)number of bootstrap iterations for singlecell}
 
 \item{n_topgenes}{(integr)Number of top associated gene selected to
 calculate the scPagwas score;}
