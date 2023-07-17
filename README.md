@@ -15,7 +15,8 @@ pathway activation transformation of single-cell RNA sequence
 data.(2023)
 
 Code for reproducing the analysis from the paper is available
-[here](https://github.com/dengchunyu/scPagwas_reproduce).
+[here](https://github.com/dengchunyu/scPagwas_reproduce), or
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8137370.svg)](https://doi.org/10.5281/zenodo.8137370)
 
 For further usage on the scPagwas package, you can visit the
 [website](https://dengchunyu.github.io/about/). A vignette for using
@@ -42,9 +43,9 @@ In many cases, installing packages using `devtools::install_github` may
 fail. In such situations, an alternative approach is to download the
 package from a provided source URL and install it locally. Source
 package download from
-[here](https://1drv.ms/u/s!As-aKqXDnDUHjtxIQWKP8Df-Lp3_FA?e=8AgORU).
-Before a successful installation, it is necessary to install many
-dependency packages based on the error messages.
+[here](https://github.com/dengchunyu/scPagwas_source). Before a
+successful installation, it is necessary to install many dependency
+packages based on the error messages.
 
 ``` r
 install.packages("scPagwas_1.2.0.tar.gz",repos=NULL,type="source")
@@ -68,7 +69,7 @@ system.time(
                      assay="RNA", # the assays for scRNA-seq data to use.
                      Pathway_list=Genes_by_pathway_kegg,# pathway list is provided by package, including gene symbols.
                      n.cores=1,
-                     iters_singlecell = 100,
+                     iters_singlecell = 10,
                      chrom_ld = chrom_ld,# The LD data is provided by package.
                      singlecell=T, # Whether to run the singlecell process.
                      celltype=T# Whether to run the celltype process.

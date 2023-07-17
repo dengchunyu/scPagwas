@@ -73,7 +73,8 @@
 #' @param remove_outlier (logical)Whether to remove the outlier for
 #' scPagwas score.
 #' @param iters_celltype (integr)number of bootstrap iterations for celltype
-#' @param iters_singlecell (integr)number of bootstrap iterations for singlecell
+#' @param iters_singlecell (integr)number of bootstrap iterations for singlecell；
+#' The parameter "iters_singlecell" is used to calculate the significance p-value for individual cells. However, we have observed that this step requires a significant amount of computational memory. Therefore, we do not recommend selecting a large value for this parameter initially.If you do not want to waste time calculating the p-value, you can choose to set it as 0.
 #' @param seurat_return (logical) Whether return the seurat format result,
 #' if not,will return a list result;
 #' @param singlecell (logical)Whether to produce the singlecell result;
@@ -102,8 +103,8 @@
 #'   cell data}
 #'   {pca_cell_df:}{ a data frame for pathway pca result for each celltype.}
 #'   {lm_results:}{ the regression result for each cell.}
-#'   {gene_heritability_correlation:}{
-#'   heritability correlation value for each gene;}
+#'   {PCC:}{
+#'   heritability correlation value for each gene;In the previous version, we referred to it as Pearson correlation coefficients.}
 #'   {bootstrap_results:}{The bootstrap data frame results for celltypes
 #'   including bootstrap pvalue and confidence interval.}
 #' }
@@ -121,7 +122,7 @@
 #'   {*_celltypes_bootstrap_results.csv:}{The bootstrap data frame
 #'   results for celltypes including bootstrap pvalue and confidence
 #'   interval}
-#'   {*_gene_heritability_correlation.csv:}{ heritability correlation
+#'   {*_gene_PCC.csv:}{ heritability correlation
 #'   value("cor" for pearson) for each gene;}
 
 #' }
@@ -137,8 +138,8 @@
 #'   {Pathway_list:}{ The number of Lanczos iterations carried out}
 #'   {pca_cell_df:}{ The total number of matrix vector products carried out}
 #'   {sclm_results:}{ The total number of matrix vector products carried out}
-#'   {allsnp_gene_heritability_correlation:}{ The total number of
-#'   matrix vector products carried out}
+#'   {PCC:}{ The total number of
+#'   matrix vector products carried out;In the previous version, we referred to it as Pearson correlation coefficients}
 #'   {Pathway_ctlm_results:}{ The total number of matrix vector products
 #'   carried out}
 #'   {lm_results:}{ The total number of matrix vector products carried out}
@@ -199,7 +200,7 @@ scPagwas_main <- function(Pagwas = NULL,
                           min.pathway.size = 5,
                           max.pathway.size = 300,
                           iters_celltype = 200,
-                          iters_singlecell = 500,
+                          iters_singlecell = 100,
                           n_topgenes = 1000,
                           singlecell = TRUE,
                           celltype = TRUE,
@@ -532,20 +533,20 @@ scPagwas_main <- function(Pagwas = NULL,
     message("done!")
 
   #############################
-  ## 9.scGet_gene_heritability_correlation
+  ## 9.scGet_PCC
   #############################
   if(!run_split){
   message(paste(utils::timestamp(quiet = T),
-    " ******* 9th: scGet_gene_heritability_correlation function start! ********",
+    " ******* 9th: scGet_PCC function start! ********",
     sep = ""
   ))
 
   tt <- Sys.time()
 
-  Pagwas$gene_heritability_correlation <- scGet_gene_heritability_correlation(scPagwas.gPAS.score=Pagwas$scPagwas.gPAS.score,
+  Pagwas$PCC <- scGet_PCC(scPagwas.gPAS.score=Pagwas$scPagwas.gPAS.score,
                                                                               data_mat=Pagwas$data_mat)
 
-  scPagwas_topgenes <- names(Pagwas$gene_heritability_correlation[order(Pagwas$gene_heritability_correlation, decreasing = T), ])[1:n_topgenes]
+  scPagwas_topgenes <- names(Pagwas$PCC[order(Pagwas$PCC, decreasing = T), ])[1:n_topgenes]
 
   message("done")
 
@@ -562,11 +563,11 @@ scPagwas_main <- function(Pagwas = NULL,
     quote = F, sep = "\t"
   )
 
-  utils::write.csv(Pagwas$gene_heritability_correlation,
+  utils::write.csv(Pagwas$PCC,
     file = paste0(
       "./", output.dirs, "/",
       output.prefix,
-      "_gene_heritability_correlation.csv"
+      "_gene_PCC.csv"
     ),
     quote = F
   )
@@ -653,8 +654,6 @@ scPagwas_main <- function(Pagwas = NULL,
     rm(scPagwas_pca)
 
     Single_data$scPagwas.gPAS.score <- Pagwas$scPagwas.gPAS.score[rownames(Pagwas$Celltype_anno)]
-    #Single_data$ScalepValue <- CellScalepValue[rownames(Pagwas$Celltype_anno), "pValueHigh"]
-    #Single_data$ScaleqValue <- CellScalepValue[rownames(Pagwas$Celltype_anno), "qValueHigh"]
     if(iters_singlecell>0){
     Single_data$Random_Correct_BG_p <- correct_pdf$pooled_p
     Single_data$Random_Correct_BG_adjp <- correct_pdf$adj_p
