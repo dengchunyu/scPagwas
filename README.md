@@ -8,11 +8,10 @@ data.
 
 <img src="./man/figures/Figure1.png" width="100%" style="display: block; margin: auto;" />
 
-Reference paper:
-
-Polygenic regression uncovers trait-relevant cellular contexts through
-pathway activation transformation of single-cell RNA sequence
-data.(2023)
+Please cite this article in press as: Ma et al.,Polygenic regression
+uncovers trait-relevant cellular contexts through pathway activation
+transformation of single-cell RNA sequencing data,Cell Genomics
+(2023),<https://doi.org/10.1016/j.xgen.2023.100383>
 
 Code for reproducing the analysis from the paper is available
 [here](https://github.com/dengchunyu/scPagwas_reproduce), or
@@ -55,7 +54,7 @@ Or, download the package file from
 Then install it locally.
 
 ``` r
-devtools::install_local("sulab-wmu-scPagwas-****.tar")
+devtools::install_local("sulab-wmu-scPagwas-****.tar.gz")
 ```
 
 Another alternative approach is to download the package from a provided
