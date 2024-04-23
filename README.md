@@ -21,9 +21,6 @@ For further usage on the scPagwas package, you can visit the
 [website](https://dengchunyu.github.io/about/). A vignette for using
 also can be accessed using browseVignettes(“scPagwas”)
 
-Some important data can be download from
-[here](https://drive.google.com/drive/folders/1z7uQtzjnieJhYLhLmgmIz2jk6a6hes4l?usp=drive_link)
-
 ## Installation
 
 You can install the released version of scPagwas from
@@ -36,7 +33,6 @@ install.packages("ggpubr")
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("GenomicRanges")
-BiocManager::install("IRanges")
 
 devtools::install_github("sulab-wmu/scPagwas")
 ```
@@ -47,14 +43,6 @@ fail.
 ``` r
 library(devtools)
 install_git("https://github.com/sulab-wmu/scPagwas.git", ref = "main")
-```
-
-Or, download the package file from
-[here](https://api.github.com/repos/sulab-wmu/scPagwas/tarball/HEAD)
-Then install it locally.
-
-``` r
-devtools::install_local("sulab-wmu-scPagwas-****.tar.gz")
 ```
 
 ## Usage
@@ -70,7 +58,7 @@ system.time(
                      Single_data =system.file("extdata", "scRNAexample.rds", package = "scPagwas"),# scRNA-seq data in seruat format with "RNA" assays and normalized.
                      output.prefix="test", # the prefix name for output files
                      output.dirs="scPagwastest_output",# the directory file's name for output
-                     block_annotation = block_annotation,# gene position in chromosome is provided by package. default is hg38, block_annotation_37 is hg37.
+                     block_annotation = block_annotation_hg37,# gene position in chromosome is provided by package. default is hg38, block_annotation_hg37 is hg37.
                      assay="RNA", # the assays for scRNA-seq data to use.
                      Pathway_list=Genes_by_pathway_kegg,# pathway list is provided by package, including gene symbols.
                      n.cores=1,

@@ -42,8 +42,8 @@ Since we have downloaded pre-annotated scRNA-seq data, we will skip the steps of
 ```{r eval=FALSE}
 library(Seurat)
 library(SeuratObject)
-counts <- read.csv("GSE115978_counts.csv.gz",row.names=1)
-Anno<- read.csv("GSE115978_cell.annotations.csv.gz")
+counts <- read.csv("/Users/chunyudeng/Downloads/GSE115978_counts.csv.gz",row.names=1)
+Anno<- read.csv("/Users/chunyudeng/Downloads/GSE115978_cell.annotations.csv.gz")
 ##create the SeuratObject
 Single_data<-Seurat::CreateSeuratObject(
   counts,
@@ -51,7 +51,7 @@ Single_data<-Seurat::CreateSeuratObject(
   meta.data=Anno
 )
 
-Idents(Single_data)<-Single_data$BioClassification
+Idents(Single_data)<-Single_data$cell.types
 Single_data <- NormalizeData(Single_data, normalization.method = "LogNormalize", scale.factor = 10000)
 Single_data <- ScaleData(Single_data)
 ```
@@ -189,9 +189,14 @@ The block_annotation data provided by scPagwas is used to obtain the precise coo
 ### 5.LD data
 
 The LD data provided by the scPagwas software package is fixed and generally does not require modification.
+
+
+http://topld.genetics.unc.edu/downloads/downloads/
+
+
+
 The 1,000 Genomes Project Phase 3 Panel was applied to calculate the linkage disequilibrium (LD) among SNPs extracted from GWAS summary statistics.
 the processed LD data are show here:
-
 We use `vcftools` and `plink` to deal with the 1,000 Genomes genotypes.
 
 
